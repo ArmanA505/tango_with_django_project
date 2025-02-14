@@ -22,16 +22,14 @@ def index(request):
     context_dict['pages'] = page_list
 
     visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
-    response = render(request, 'rango/index.html', context=context_dict)   
-
-    return response
+    return render(request, 'rango/index.html', context=context_dict)
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
-    return render(request, 'rango/about.html')
+    visitor_cookie_handler(request)
+    context_dict = {'visits': request.session.get('visits', 1)}
+    
+    return render(request, 'rango/about.html', context=context_dict)
+
 
 
 
